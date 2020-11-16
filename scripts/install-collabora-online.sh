@@ -32,6 +32,12 @@ apt-get -y install loolwsd code-brand collaboraoffice6.4-dict* collaboraofficeba
 # Install inotifywait and killall to automatic restart loolwsd, if loolwsd.xml changes
 apt-get -y install inotify-tools psmisc
 
+# Set Time Zones
+export DEBIAN_FRONTEND=noninteractive
+ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+apt-get install -y tzdata
+dpkg-reconfigure --frontend noninteractive tzdata
+
 # Cleanup
 rm -rf /var/lib/apt/lists/*
 
