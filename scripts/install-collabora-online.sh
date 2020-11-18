@@ -3,6 +3,12 @@
 # Refresh repos otherwise installations later may fail
 apt-get update
 
+# Set Time Zones
+export DEBIAN_FRONTEND=noninteractive
+ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+apt-get install -y tzdata
+dpkg-reconfigure --frontend noninteractive tzdata
+
 # Install HTTPS transport
 apt-get -y install apt-transport-https
 
@@ -29,14 +35,15 @@ apt-get update
 # Install the Collabora packages
 apt-get -y install loolwsd code-brand collaboraoffice6.4-dict* collaboraofficebasis6.4-ar collaboraofficebasis6.4-as collaboraofficebasis6.4-ast collaboraofficebasis6.4-bg collaboraofficebasis6.4-bn-in collaboraofficebasis6.4-br collaboraofficebasis6.4-ca collaboraofficebasis6.4-calc collaboraofficebasis6.4-ca-valencia collaboraofficebasis6.4-core collaboraofficebasis6.4-cs collaboraofficebasis6.4-cy collaboraofficebasis6.4-da collaboraofficebasis6.4-de collaboraofficebasis6.4-draw collaboraofficebasis6.4-el collaboraofficebasis6.4-en-gb collaboraofficebasis6.4-en-us collaboraofficebasis6.4-es collaboraofficebasis6.4-et collaboraofficebasis6.4-eu collaboraofficebasis6.4-extension-pdf-import collaboraofficebasis6.4-fi collaboraofficebasis6.4-fr collaboraofficebasis6.4-ga collaboraofficebasis6.4-gd collaboraofficebasis6.4-gl collaboraofficebasis6.4-graphicfilter collaboraofficebasis6.4-gu collaboraofficebasis6.4-he collaboraofficebasis6.4-hi collaboraofficebasis6.4-hr collaboraofficebasis6.4-hu collaboraofficebasis6.4-id collaboraofficebasis6.4-images collaboraofficebasis6.4-impress collaboraofficebasis6.4-is collaboraofficebasis6.4-it collaboraofficebasis6.4-ja collaboraofficebasis6.4-km collaboraofficebasis6.4-kn collaboraofficebasis6.4-ko collaboraofficebasis6.4-lt collaboraofficebasis6.4-lv collaboraofficebasis6.4-ml collaboraofficebasis6.4-mr collaboraofficebasis6.4-nb collaboraofficebasis6.4-nl collaboraofficebasis6.4-nn collaboraofficebasis6.4-oc collaboraofficebasis6.4-ooofonts collaboraofficebasis6.4-ooolinguistic collaboraofficebasis6.4-or collaboraofficebasis6.4-pa-in collaboraofficebasis6.4-pl collaboraofficebasis6.4-pt collaboraofficebasis6.4-pt-br collaboraofficebasis6.4-ro collaboraofficebasis6.4-ru collaboraofficebasis6.4-sk collaboraofficebasis6.4-sl collaboraofficebasis6.4-sr collaboraofficebasis6.4-sr-latn collaboraofficebasis6.4-sv collaboraofficebasis6.4-ta collaboraofficebasis6.4-te collaboraofficebasis6.4-tr collaboraofficebasis6.4-uk collaboraofficebasis6.4-vi collaboraofficebasis6.4-writer collaboraofficebasis6.4-zh-cn collaboraofficebasis6.4-zh-tw
 
+# Install ms-fonts
+echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+apt-get install -y --no-install-recommends fontconfig ttf-mscorefonts-installer
+
+# Install spelling checker
+apt-get -y install hunspell hunspell-de-de hunspell-de-at hunspell-de-ch hunspell-en-gb hunspell-en-us hunspell-es hunspell-fr hunspell-it hunspell-nl hunspell-pt-br hunspell-ru locales-all
+
 # Install inotifywait and killall to automatic restart loolwsd, if loolwsd.xml changes
 apt-get -y install inotify-tools psmisc
-
-# Set Time Zones
-export DEBIAN_FRONTEND=noninteractive
-ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-apt-get install -y tzdata
-dpkg-reconfigure --frontend noninteractive tzdata
 
 # Cleanup
 rm -rf /var/lib/apt/lists/*
